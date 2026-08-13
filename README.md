@@ -26,9 +26,9 @@ Le présent fichier `README.md` est le point d'entrée du projet.
 
 Le projet est structuré en différentes branches de la manière suivante :
 
-- `feature/pcb` : contient les fichiers de conception du PCB du clavier.
-- `feature/firmware` : contient le firmware du clavier.
+- `[feature/pcb](https://github.com/Artilect-FabTronic/open-tpmx2030-keyboard/tree/feature/pcb)` : contient les fichiers de conception du PCB du clavier.
+- `[feature/firmware](https://github.com/Artilect-FabTronic/open-tpmx2030-keyboard/tree/feature/firmware)` : contient le firmware du clavier.
 
-Le dossier `*/docs/` : contient la documentation du projet.
+Le dossier `*/docs/` de la branche principale contient la documentation générale du projet.
 
 Voir les bonnes pratiques pour les messages de commit : <https://commitizen-tools.github.io/commitizen/tutorials/writing_commits/>

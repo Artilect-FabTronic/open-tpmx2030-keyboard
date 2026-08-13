@@ -1,22 +1,94 @@
-# 02 — Conception Hardware & PCB
+<h3>02 — Conception Hardware & PCB</h3>
 
 > **Retour à l'index :** [Documentation](./README.md)
 
 ---
 
-## Table des matières
+<h4>Table des matières</h4>
 
-- [Microcontrôleur — RP2040-Zero](#microcontrôleur--rp2040-zero)
+- [Le choix d'un microcontrôleur pour la conception d'un clavier USB HID custom](#le-choix-dun-microcontrôleur-pour-la-conception-dun-clavier-usb-hid-custom)
+  - [Tableau Comparatif Exhaustif des Puces MCU pour Claviers USB HID](#tableau-comparatif-exhaustif-des-puces-mcu-pour-claviers-usb-hid)
+  - [Analyse et Découpage par Typologie de Projet](#analyse-et-découpage-par-typologie-de-projet)
+  - [Pourquoi le RP2040 ?](#pourquoi-le-rp2040-)
+    - [Caractéristiques techniques et Ressources pour la carte RP2040-Zero](#caractéristiques-techniques-et-ressources-pour-la-carte-rp2040-zero)
+    - [Pinout et schématique de la carte RP2040-Zero](#pinout-et-schématique-de-la-carte-rp2040-zero)
+    - [Options de programmation](#options-de-programmation)
 - [Matrice de touches](#matrice-de-touches)
+  - [Principe de la matrice](#principe-de-la-matrice)
+  - [Dimensions de la matrice](#dimensions-de-la-matrice)
+  - [Diodes Anti-Ghosting](#diodes-anti-ghosting)
+  - [Pourquoi pas de GPIO directs sur le RP2040 ?](#pourquoi-pas-de-gpio-directs-sur-le-rp2040-)
 - [Switches Cherry MX2A](#switches-cherry-mx2a)
+  - [Version V1 — Brown (Tactile)](#version-v1--brown-tactile)
+  - [Version V2 — Blue (Clicky)](#version-v2--blue-clicky)
+  - [Sockets Hotswap](#sockets-hotswap)
 - [Assignation finale des broches GPIO](#assignation-finale-des-broches-gpio)
+  - [Bilan GPIO](#bilan-gpio)
 - [Architecture hardware globale](#architecture-hardware-globale)
 - [Nomenclature BOM](#nomenclature-bom)
 - [Outils de conception PCB](#outils-de-conception-pcb)
+  - [KiCad](#kicad)
+  - [Ergogen (Layout PCB automatisé)](#ergogen-layout-pcb-automatisé)
 
 ---
 
-## Microcontrôleur — RP2040-Zero
+## Le choix d'un microcontrôleur pour la conception d'un clavier USB HID custom
+
+Ce tableau panoramique regroupe l'ensemble des puces du marché, des solutions historiques aux processeurs modernes (ARM, RISC-V, 8051), classées par familles d'architecture pour vous donner une vision globale et le bon niveau de décision technique pour le projet **Open-TPMX2030**.
+
+### Tableau Comparatif Exhaustif des Puces MCU pour Claviers USB HID
+
+| Modèle MCU           | Architecture / Cœur            | Fréquence  | Flash / RAM            | GPIO (approx.) | Type USB                 | Sans-Fil             | Support Firmware                   | Cas d'Usage / Remarques                                               |
+| -------------------- | ------------------------------ | ---------- | ---------------------- | -------------- | ------------------------ | -------------------- | ---------------------------------- | --------------------------------------------------------------------- |
+| **ATmega32U4**       | 8-bit AVR                      | 16 MHz     | 32 KB / 2.5 KB         | 18 - 26        | **Natif (FS)**           | Non                  | QMK, VIA, TMK, Arduino             | Standard historique (Pro Micro). Flash très limitée.                  |
+| **AT90USB1286**      | 8-bit AVR                      | 16 MHz     | 128 KB / 8 KB          | 46             | **Natif (FS)**           | Non                  | QMK, TMK, Arduino                  | Ancien standard grand format (Teensy 2.0++).                          |
+| **ATmega32A**        | 8-bit AVR                      | 16 MHz     | 32 KB / 2 KB           | 32             | **Emulé (V-USB)**        | Non                  | QMK, TMK                           | Émulation USB logicielle (ex: GH60). Obsolète.                        |
+| **ATtiny85**         | 8-bit AVR                      | 16 MHz     | 8 KB / 512 B           | 6              | **Emulé (V-USB)**        | Non                  | Micronucleus, Arduino              | Ultra-limité (Digispark). Idéal pour macropads 2-4 touches.           |
+| **RP2040**           | 32-bit ARM Cortex-M0+          | 133 MHz    | 2 à 16 MB / 264 KB     | 20 à 30        | **Natif (FS)**           | Non                  | QMK, KMK, Vial, Arduino            | **Le nouveau standard filaire (Incontournable).**                     |
+| **RP2350**           | 32-bit ARM Cortex-M33 / RISC-V | 150 MHz    | 4 à 16 MB / 520 KB     | 30 à 48        | **Natif (FS)**           | Non                  | Pico-SDK, CircuitPython, Arduino   | Successeur du RP2040. Sécurité renforcée & plus d'E/S.                |
+| **STM32F103**        | 32-bit ARM Cortex-M3           | 72 MHz     | 64-128 KB / 20 KB      | ~37            | **Natif (FS)**           | Non                  | QMK, VIA, Arduino                  | Puce "Blue Pill". Écosystème très mature mais contrefaçons.           |
+| **STM32F401 / F411** | 32-bit ARM Cortex-M4           | 84-100 MHz | 256-512 KB / 64-128 KB | ~32            | **Natif (FS/HS)**        | Non                  | QMK, Vial, Arduino                 | Puce "Black Pill". Excellentes performances / prix.                   |
+| **STM32L432**        | 32-bit ARM Cortex-M4           | 80 MHz     | 256 KB / 64 KB         | ~20            | **Natif (Crystal-less)** | Non                  | QMK, Custom                        | Très faible consommation. Idéal sur PCB très compacts.                |
+| **ATSAMD21G18**      | 32-bit ARM Cortex-M0+          | 48 MHz     | 256 KB / 32 KB         | ~26            | **Natif (FS)**           | Non                  | QMK, CircuitPython, Arduino        | Répandu (Seeeduino Xiao, Arduino Zero).                               |
+| **ATSAMD51**         | 32-bit ARM Cortex-M4F          | 120 MHz    | 512 KB / 192 KB        | ~38            | **Natif (FS/HS)**        | Non                  | QMK, CircuitPython                 | Haute performance, gestion d'écrans complexes/RGB.                    |
+| **nRF52840**         | 32-bit ARM Cortex-M4F          | 64 MHz     | 1 MB / 256 KB          | 21 à 48        | **Natif (FS)**           | **BLE 5.0 / Thread** | ZMK, Bluemicro, Arduino            | **Le Roi du Sans-Fil (nice!nano, Xiao BLE).**                         |
+| **nRF52833**         | 32-bit ARM Cortex-M4F          | 64 MHz     | 512 KB / 128 KB        | ~18            | **Natif (FS)**           | **BLE 5.0**          | ZMK, Arduino                       | Variante économique du nRF52840 (moins de RAM/Flash).                 |
+| **ESP32-S2**         | 32-bit Xtensa Single-Core      | 240 MHz    | 4 MB / 320 KB          | ~43            | **Natif (OTG FS)**       | **Wi-Fi**            | CircuitPython, Arduino             | Wi-Fi + USB Natif. Consommation élevée.                               |
+| **ESP32-S3**         | 32-bit Xtensa Dual-Core        | 240 MHz    | 4 à 16 MB / 512 KB     | ~45            | **Natif (OTG FS)**       | **Wi-Fi + BLE 5**    | CircuitPython, QMK (port), Arduino | Très puissant, gère le BLE et l'USB HID simultanément.                |
+| **Teensy 3.2**       | 32-bit ARM Cortex-M4           | 72 MHz     | 256 KB / 64 KB         | 34             | **Natif (FS)**           | Non                  | QMK, Arduino                       | Référence historique haut de gamme (MK20DX256).                       |
+| **Teensy 4.0 / 4.1** | 32-bit ARM Cortex-M7           | 600 MHz    | 2 MB / 1 MB            | 31 à 55        | **Natif (HS 480Mbps)**   | Non                  | QMK, Arduino                       | Puissance brute / Station de laboratoire / Traitement Audio.          |
+| **CH552 / CH554**    | 8-bit Enhanced 8051            | 24 MHz     | 16 KB / 1.2 KB         | ~17            | **Natif (FS)**           | Non                  | Custom C, Arduino                  | **Puce à < 0,30 $.** Idéal pour macropads et claviers ultra-low-cost. |
+| **CH32V203**         | 32-bit RISC-V                  | 144 MHz    | 64 KB / 20 KB          | ~37            | **Natif (FS)**           | Non                  | OpenWCH, Custom                    | Alternative RISC-V ultra économique au STM32.                         |
+
+---
+
+### Analyse et Découpage par Typologie de Projet
+
+Pour vous guider dans vos choix d'ingénierie, l'ensemble de ces puces se divise en 4 grandes catégories :
+
+1. Les Puces Légendaires en Fin de Vie (8-bit / V-USB)
+
+* **Puces :** `ATmega32U4`, `ATmega32A`, `ATtiny85`.
+* **Constat :** Historiquement associées à l'essor du logiciel libre **QMK**, ces puces souffrent de leur faible quantité de mémoire Flash (32 Ko max). Aujourd'hui, activer le rétroéclairage RGB, les fonctionnalités de disposition complexe (comme *Vial*) ou le support des encodeurs rotatifs nécessite de sacrifier d'autres fonctions par manque de place.
+* **Verdict :** À réserver uniquement au dépannage ou à la maintenance de puces existantes.
+
+2. Les Standards Modernes pour Claviers Filaires (32-bit)
+
+* **Puces :** `RP2040`, `RP2350`, `STM32F411`, `CH32V203`.
+* **Constat :** Le **RP2040** est devenu le leader incontesté pour les cartes filaires grâce à son prix ridicule, sa mémoire flash externe quasi-illimitée (2 à 16 Mo) et son architecture USB ultra-fiable. Le **CH32V203** (RISC-V) et le **CH552** émergent sur le marché asiatique pour les claviers produits en masse à coût minimal.
+* **Verdict :** Le **RP2040** (utilisé sur le RP2040-Zero du projet *Open-TPMX2030*) offre le meilleur rapport flexibilité/documentation/coût.
+
+3. Les Références du Sans-Fil (Bluetooth / BLE)
+
+* **Puces :** `nRF52840`, `ESP32-S3`.
+* **Constat :** Le **nRF52840** règne en maître sur l'écosystème **ZMK**. Son architecture ultra-basse consommation permet à un clavier mécanique de fonctionner pendant plusieurs mois sur une simple batterie LiPo de 300 mAh. L'**ESP32-S3** est une alternative très puissante, mais sa consommation d'énergie élevée le réserve aux claviers filaires possédant un mode secours sans-fil.
+* **Verdict :** Le **nRF52840** (via un footprint *nice!nano*) est le choix numéro 1 pour toute déclinaison sans-fil.
+
+4. Les Monstres de Puissance (Prototypage & IHM Avancées)
+
+* **Puces :** `Teensy 4.0/4.1`, `ATSAMD51`.
+* **Constat :** Avec des fréquences dépassant les 100 à 600 MHz, ces cartes sont capables d'exécuter des traitements lourds en parallèle du protocole USB (ex: génération de son synthétisé, gestion d'écrans tactiles high-refresh-rate, traitement du signal vidéo).
+* **Verdict :** Surdimensionné pour un clavier classique, mais très pertinent pour des postes de travail intégrant des consoles de mixage ou des contrôleurs dédiés à l'IHM.
 
 ### Pourquoi le RP2040 ?
 
@@ -28,7 +100,7 @@ Le **RP2040** de Raspberry Pi a été retenu comme cœur du projet pour les rais
 - **Faible coût** (~3-5 € l'unité en lot).
 - **Format castellated** du RP2040-Zero : permet de souder directement la carte sur le PCB principal.
 
-### Caractéristiques techniques du RP2040-Zero (Waveshare)
+#### Caractéristiques techniques et Ressources pour la carte RP2040-Zero
 
 | Caractéristique      | Valeur                                               |
 | -------------------- | ---------------------------------------------------- |
@@ -40,20 +112,20 @@ Le **RP2040** de Raspberry Pi a été retenu comme cœur du projet pour les rais
 | **Spécificité**      | Format ultra-compact, castellated (soudable sur PCB) |
 | **LED RGB intégrée** | WS2812B sur GPIO 16                                  |
 
-### Ressources
+**Ressources :**
 
 - 📄 [Datasheet RP2040](https://pip-assets.raspberrypi.com/categories/814-rp2040/documents/RP-008371-DS-1-rp2040-datasheet.pdf)
 - 📄 [Hardware Design with RP2040](https://pip-assets.raspberrypi.com/categories/814-rp2040/documents/RP-008279-DS-1-hardware-design-with-rp2040.pdf)
 - 🌐 [Wiki Waveshare RP2040-Zero](https://www.waveshare.com/wiki/RP2040-Zero)
 - 🔌 [Pinout TinyGo Reference](https://tinygo.org/docs/reference/microcontrollers/machine/waveshare-rp2040-zero/)
 
-### Pinout et schématique de la carte RP2040-Zero
+#### Pinout et schématique de la carte RP2040-Zero
 
 ![Waveshare RP2040-Zero Pinout](./RP2040-Zero-Board/waveshare-rp2040-zero-pinout.jpg)
 
 ![Waveshare RP2040-Zero Schéma](./RP2040-Zero-Board/waveshare-rp2040-zero-schematic.jpg)
 
-### Options de programmation
+#### Options de programmation
 
 | Environnement                      | Langage | Remarques                                 |
 | ---------------------------------- | ------- | ----------------------------------------- |

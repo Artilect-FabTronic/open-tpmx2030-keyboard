@@ -38,11 +38,13 @@
 
 ### Protocole USB HID
 
-| Document                              | Description                                     | Lien                                                                                                       |
-| ------------------------------------- | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| **Arduino USB HID Reference**         | Référence de la bibliothèque clavier Arduino    | [docs.arduino.cc](https://docs.arduino.cc/language-reference/en/functions/usb/Keyboard/)                   |
-| **Keyboard Modifiers & Special Keys** | Codes des modificateurs et touches spéciales    | [docs.arduino.cc](https://docs.arduino.cc/language-reference/en/functions/usb/Keyboard/keyboardModifiers/) |
-| **Docs numériques — Claviers**        | Documentation française sur les claviers et HID | [numerique.gouv.fr](https://docs.numerique.gouv.fr/docs/51d17aac-0f69-47e5-ac53-45f855d158d7/)             |
+| Document                                                      | Description                                        | Lien                                                                                                                                                                                                         |
+| ------------------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **The USB keyboard protocol**                                 | Protocole USB clavier HID (Human Interface Device) | [blog.gistre.epita.fr](https://blog.gistre.epita.fr/posts/ivan.imbert-2024-09-09-the_usb_keyboard_protocol/) / [emrecmic.wordpress.com](https://emrecmic.wordpress.com/wp-content/uploads/2016/05/hid-1.pdf) |
+| **Device Class Definition for Human Interface Devices (HID)** | Protocole USB clavier HID (Human Interface Device) | [usb.org](https://www.usb.org/sites/default/files/documents/hid1_11.pdf)                                                                                                                                     |
+| **Construire des périphériques USB HID**                      | Guide pour créer des périphériques USB HID         | [electroseed.fr](https://www.electroseed.fr/wiki/fr/docs/tutorials/tutorials-nodeblue/nodeblue_99q_hid/)                                                                                                     |
+| **Arduino USB HID Reference**                                 | Référence de la bibliothèque clavier Arduino       | [docs.arduino.cc](https://docs.arduino.cc/language-reference/en/functions/usb/Keyboard/)                                                                                                                     |
+| **Keyboard Modifiers & Special Keys**                         | Codes des modificateurs et touches spéciales       | [docs.arduino.cc](https://docs.arduino.cc/language-reference/en/functions/usb/Keyboard/keyboardModifiers/)                                                                                                   |
 
 ---
 
@@ -204,7 +206,7 @@ Référence incontournable pour les layouts alternatifs avancés (Colemak-DH, An
 
 ---
 
-## Ressources institutionnelles
+## Ressources
 
 | Ressource                             | Description                            | Lien                                                                                                   |
 | ------------------------------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------ |

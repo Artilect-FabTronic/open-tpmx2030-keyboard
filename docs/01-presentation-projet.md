@@ -67,11 +67,11 @@ Le dépôt est hébergé sur GitHub :
 
 ### Structure des branches
 
-| Branche            | Rôle                                                           |
-| ------------------ | -------------------------------------------------------------- |
-| `main`             | Branche principale **protégée** — aucun commit direct autorisé |
-| `feature/pcb`      | Fichiers KiCad et conception du PCB                            |
-| `feature/firmware` | Code source du firmware                                        |
+| Branche                                                                                                  | Rôle                                                           |
+| -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| `main`                                                                                                   | Branche principale **protégée** — aucun commit direct autorisé |
+| `[feature/pcb](https://github.com/Artilect-FabTronic/open-tpmx2030-keyboard/tree/feature/pcb)`           | Fichiers KiCad et conception du PCB                            |
+| `[feature/firmware](https://github.com/Artilect-FabTronic/open-tpmx2030-keyboard/tree/feature/firmware)` | Code source du firmware                                        |
 
 > **Règle de contribution :** Toute contribution passe par une **Pull Request** depuis une branche feature vers `main`. Les commits directs sur `main` sont bloqués.
 
@@ -91,6 +91,7 @@ open-tpmx2030-keyboard/
 │   ├── 07-ressources-references.md
 │   └── RP2040-Zero-Board/     ← Pinout et schéma du RP2040-Zero
 ├── images/                    ← Images du projet
+├── firmware/                  ← Code source du firmware (branche feature/firmware)
 ├── pcb/                       ← Fichiers KiCad (branche feature/pcb)
 └── .gitignore
 ```
