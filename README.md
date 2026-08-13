@@ -12,23 +12,23 @@ Pour plus de détails sur la disposition bépo, veuillez consulter le wiki : <ht
 
 ---
 
-## Contribuer au projet
-
-Afin de permettre à chacun de contribuer à la version 1.0.0 du clavier `open-tpmx2030-keyboard`, merci de respecter la règle de nommage des branches et de ne pas commiter directement sur la branche main. En effet, la branche main est protégée et toute contribution doit passer par une pull request.
-
-Un grand merci à tous les futurs contributeurs qui participeront à ce projet et qui continueront à le faire évoluer.
-
----
-
 ## Organisation du projet
 
 Le présent fichier `README.md` est le point d'entrée du projet.
 
 Le projet est structuré en différentes branches de la manière suivante :
 
-- `[feature/pcb](https://github.com/Artilect-FabTronic/open-tpmx2030-keyboard/tree/feature/pcb)` : contient les fichiers de conception du PCB du clavier.
-- `[feature/firmware](https://github.com/Artilect-FabTronic/open-tpmx2030-keyboard/tree/feature/firmware)` : contient le firmware du clavier.
+- [`feature/pcb`](https://github.com/Artilect-FabTronic/open-tpmx2030-keyboard/tree/feature/pcb) : contient les fichiers de conception du PCB du clavier.
+- [`feature/firmware`](https://github.com/Artilect-FabTronic/open-tpmx2030-keyboard/tree/feature/firmware) : contient le firmware du clavier.
 
-Le dossier `*/docs/` de la branche principale contient la documentation générale du projet.
+📁 Le dossier [`*/docs/`](./docs/README.md) de la branche principale contient la documentation générale du projet.
 
-Voir les bonnes pratiques pour les messages de commit : <https://commitizen-tools.github.io/commitizen/tutorials/writing_commits/>
+👍 Voir les bonnes pratiques pour les messages de commit : <https://commitizen-tools.github.io/commitizen/tutorials/writing_commits/>
+
+---
+
+## Contribuer au projet
+
+📜 Afin de permettre à chacun de contribuer à la version 1.0.0 du clavier `open-tpmx2030-keyboard`, merci de respecter la règle de nommage des branches et de ne pas commiter directement sur la branche main. En effet, la branche main est protégée et toute contribution doit passer par une pull request.
+
+❤️ Un grand merci à tous les futurs contributeurs qui participeront à ce projet et qui continueront à le faire évoluer.

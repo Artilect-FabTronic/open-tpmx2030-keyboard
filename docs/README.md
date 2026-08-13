@@ -8,15 +8,15 @@
 
 ## Table des matières
 
-| N°  | Document                                                       | Description                               |
-| --- | -------------------------------------------------------------- | ----------------------------------------- |
-| —   | [Présentation du projet](./01-presentation-projet.md)          | Genèse, objectifs, organisation du dépôt  |
-| —   | [Conception Hardware & PCB](./02-conception-hardware.md)       | MCU, matrice de touches, BOM, pinout      |
-| —   | [Interface Homme-Machine (IHM)](./03-interface-ihm.md)         | Encodeurs rotatifs, LEDs, keycaps         |
-| —   | [Architecture Firmware](./04-firmware-architecture.md)         | Code C++/Arduino, HID, scancodes          |
-| —   | [Analyse GPIO & Extension I2C](./05-analyse-gpio-extension.md) | MCP23017 vs 74HC165, architecture retenue |
-| —   | [Dispositions Clavier](./06-dispositions-clavier.md)           | Bépo, Dvorak, QWERTY, outils logiciels    |
-| —   | [Ressources & Références](./07-ressources-references.md)       | Datasheets, liens, fournisseurs, projets  |
+|   N° | Document                                                       | Description                               |
+| ---: | :------------------------------------------------------------- | :---------------------------------------- |
+|   01 | [Présentation du projet](./01-presentation-projet.md)          | Genèse, objectifs, organisation du dépôt  |
+|   02 | [Conception Hardware & PCB](./02-conception-hardware.md)       | MCU, matrice de touches, BOM, pinout      |
+|   03 | [Interface Homme-Machine (IHM)](./03-interface-ihm.md)         | Encodeurs rotatifs, LEDs, keycaps         |
+|   04 | [Architecture Firmware](./04-firmware-architecture.md)         | Code C++/Arduino, HID, scancodes          |
+|   05 | [Analyse GPIO & Extension I2C](./05-analyse-gpio-extension.md) | MCP23017 vs 74HC165, architecture retenue |
+|   06 | [Dispositions Clavier](./06-dispositions-clavier.md)           | Bépo, Dvorak, QWERTY, outils logiciels    |
+|   07 | [Ressources & Références](./07-ressources-references.md)       | Datasheets, liens, fournisseurs, projets  |
 
 ---
 
