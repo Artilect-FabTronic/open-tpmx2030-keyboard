@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "Open_TPMX2030")(type "KiCad")(uri "${KIPRJMOD}/libraries/symbols/Open_TPMX2030.kicad_sym")(options "")(descr "Bibliothèque locale du projet"))
+)

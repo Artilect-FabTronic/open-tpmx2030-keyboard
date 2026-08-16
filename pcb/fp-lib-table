@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "Open_TPMX2030")(type "KiCad")(uri "${KIPRJMOD}/libraries/footprints/Open_TPMX2030.pretty")(options "")(descr "Empreintes locales du projet"))
+)

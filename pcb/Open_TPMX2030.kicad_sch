@@ -1,0 +1,24 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "7eb97883-76c6-4f20-a7ea-f78662082f71")
+	(paper "A4")
+	(title_block
+		(title "${PROJECTNAME}")
+		(date "${CREATION_DATE}")
+		(rev "${REVISION}")
+		(company "${COMPANY}")
+		(comment 1 "${TITLE}")
+		(comment 2 "${USER_EMAIL}")
+		(comment 3 "${USER_NAME}")
+		(comment 4 "Electrical CAD Operator:")
+	)
+	(lib_symbols)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

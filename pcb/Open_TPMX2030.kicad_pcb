@@ -1,0 +1,22 @@
+(kicad_pcb
+  (version 20240108)
+  (generator "kicad_project_template")
+  (generator_version "10.0")
+  (general
+    (thickness 1.6)
+  )
+  (paper "A4")
+    (title_block
+      (title "${PROJECTNAME}")
+      (date "${CREATION_DATE}")
+      (rev "${REVISION}")
+      (company "${COMPANY}")
+      (comment 1 "${TITLE}")
+      (comment 2 "${USER_EMAIL}")
+      (comment 3 "${USER_NAME}")
+      (comment 4 "Electrical CAD Operator:")
+    )
+  (setup
+    (pad_to_mask_clearance 0)
+  )
+)

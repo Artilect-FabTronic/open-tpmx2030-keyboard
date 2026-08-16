@@ -1,0 +1,6 @@
+/* Custom DRC rules for Open_TPMX2030 */
+(version 1)
+
+(rule "Clearance_Default"
+  (constraint clearance (min 0.2mm))
+  (condition "A.Type == 'track'"))
