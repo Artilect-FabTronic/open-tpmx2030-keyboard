@@ -1,4 +1,6 @@
 (sym_lib_table
-  (version 7)
-  (lib (name "Open_TPMX2030")(type "KiCad")(uri "${KIPRJMOD}/libraries/symbols/Open_TPMX2030.kicad_sym")(options "")(descr "Bibliothèque locale du projet"))
+	(version 7)
+	(lib (name "Open_TPMX2030") (type "KiCad") (uri "${KIPRJMOD}/libraries/symbols/Open_TPMX2030.kicad_sym") (options "") (descr "Bibliothèque locale du projet"))
+	(lib (name "Artilect-Logo_14x14mm") (type "KiCad") (uri "${KIPRJMOD}/libraries/symbols/Artilect-Logo_14x14mm.kicad_sym") (options "") (descr ""))
+	(lib (name "Artilect-Logo_14x17mm") (type "KiCad") (uri "${KIPRJMOD}/libraries/symbols/Artilect-Logo_14x17mm.kicad_sym") (options "") (descr ""))
 )

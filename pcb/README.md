@@ -8,6 +8,36 @@ Il regroupe les règles de l'art en ingénierie électronique pour concevoir un 
 
 ## 📌 1. Structure du Projet & Conventions de Nommage
 
+Editer le fichier `.kicad_pro` avec un éditeur de texte est modifier la section `text_variables` en fin du fichier avec les éléments suivants :
+
+```plaintext
+  "text_variables": {
+    "COMPANY": "Copyright (c) 2026 Artilect FabLab Toulouse",
+    "CREATION_DATE": "2026-08-16",
+    "LICENSE": "Apache-2.0 license",
+    "PROJECT_NAME": "Open-TPMX2030 keyboard",
+    "REVISION": "1.0.0",
+    "SERIAL_NUM": "S/N: 260816-Artilect-P001",
+    "USER_EMAIL": "arnauld.biganzoli@gmail.com",
+    "USER_NAME": "ArnauldDev"
+  },
+```
+
+Et depuis l'édition des fichiers `.kicad_sch` et `.kicad_pcb`, compléter la section `title_block` avec les éléments suivants :
+
+```plaintext
+	(title_block
+		(title "${PROJECT_NAME}")
+		(date "${CREATION_DATE}")
+		(rev "${REVISION}")
+		(company "${COMPANY}")
+		(comment 1 "License: ${LICENSE}")
+		(comment 2 "${USER_EMAIL}")
+		(comment 3 "${USER_NAME}")
+		(comment 4 "Electrical CAD Operator:")
+	)
+```
+
 ### 1.1 Organisation du Dépôt Git
 
 Tout le projet Hardware réside dans le dossier `/pcb` du dépôt GitHub `open-tpmx2030-keyboard`.
@@ -18,11 +48,10 @@ Tout le projet Hardware réside dans le dossier `/pcb` du dépôt GitHub `open-t
 │   ├── open_tpmx2030.kicad_sch       # Schématique racine (Feuille Principale)
 │   ├── open_tpmx2030.kicad_pcb       # Layout du PCB
 │   ├── open_tpmx2030.kicad_dru       # Règles de routage personnalisées (DRC)
-│   ├── sch_sheets/                   # Schémas hiérarchiques secondaires
-│   │   ├── mcu_rp2040.kicad_sch      # Module Microcontrôleur RP2040-Zero
-│   │   ├── matrix_expanders.kicad_sch# Module MCP23017 (I2C)
-│   │   ├── key_matrix.kicad_sch      # Matrice de switches (102 touches + diodes)
-│   │   └── user_interface.kicad_sch  # Encodeurs + LEDs
+│   ├── mcu_rp2040.kicad_sch          # Module Microcontrôleur RP2040-Zero
+│   ├── matrix_expanders.kicad_sch    # Module MCP23017 (I2C)
+│   ├── key_matrix.kicad_sch          # Matrice de switches (keyboard 102 touches + diodes)
+│   ├── user_interface.kicad_sch      # Encodeurs + LEDs
 │   └── libraries/                    # Symboles et Empreintes spécifiques
 │       ├── symbols/                  # .kicad_sym (.kicad_sym)
 │       ├── footprints/               # .kicad_mod (.pretty)
@@ -30,7 +59,7 @@ Tout le projet Hardware réside dans le dossier `/pcb` du dépôt GitHub `open-t
 └── manufacturing/                    # Gerbers, Drill, BOM, CPL (Générés)
 ```
 
-### 1.2 Règles de Nommage des Composants (RefDes)
+### 1.2 Règles de nommage des composants
 
 Pour s'y retrouver facilement lors du soudage manuel ou de l'inspection :
 
@@ -45,7 +74,7 @@ Pour s'y retrouver facilement lors du soudage manuel ou de l'inspection :
 
 ---
 
-## 📐 2. Règles d'Or pour la Schématique (Eeschema)
+## 📐 2. La schématique (Eeschema)
 
 ### 2.1 Approche par Schémas Hiérarchiques
 
@@ -53,7 +82,7 @@ Ne mettez jamais l'intégralité d'un projet de 102 touches sur une seule page g
 
 Utilisez des Feuilles Hiérarchiques (Hierarchical Sheets) :
 
-1. Racine (open-tpmx2030.kicad_sch) : Bloc-diagramme reliant les sous-modules via des labels hiérarchiques (Bus I2C, INT, Power).
+1. Racine (open_tpmx2030.kicad_sch) : Bloc-diagramme reliant les sous-modules via des labels hiérarchiques (Bus I2C, INT, Power).
 2. Feuille mcu_rp2040 : RP2040-Zero, régulateur de tension (si besoin), filtrage d'alimentation, connecteur USB-C.
 3. Feuille matrix_expanders : Les 2x MCP23017, adresses I2C (A0, A1, A2), résistances de tirage I2C (Pull-up).
 4. Feuille key_matrix : Matrice $8 \times 13$ réparties proprement en sous-ensembles (ex: réplication de blocs).
@@ -126,7 +155,7 @@ Avant de générer les fichiers Gerber pour le FabLab ou l'usine :
 
 ## 📦 6. Export pour la Fabrication
 
-Exportez depuis KiCad dans le dossier `/manufacturing` :
+Exportez depuis KiCad dans le dossier `/production` :
 
 1. **Fichiers Gerber (RS-274X) :** Couches `F.Cu`, `B.Cu`, `F.Silkscreen`, `B.Silkscreen`, `F.Mask`, `B.Mask`, `Edge.Cuts` (Contour).
 2. **Fichier de Perçage (Excellon / NC Drill) :** Unités en mm, coordonnées absolues.
